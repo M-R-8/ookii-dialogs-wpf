@@ -1,16 +1,16 @@
 ﻿// Copyright 2009-2021 Ookii Dialogs Contributors
 //
-// Licensed under the BSD 3-Clause License (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+// Под лицензией BSD 3-Clause License («Лицензия»);
+// вы не можете использовать этот файл, кроме как в соответствии с Лицензией.
+// Вы можете получить копию Лицензии по адресу
 //
-//     https://opensource.org/licenses/BSD-3-Clause
+// https://opensource.org/licenses/BSD-3-Clause
 //
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Если это не требуется применимым законодательством или не согласовано в письменной форме, программное обеспечение
+// распространяется по Лицензии распространяется на условиях «КАК ЕСТЬ»,
+// БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ ИЛИ УСЛОВИЙ, явных или подразумеваемых.
+// См. Лицензию для конкретного языка, управляющего разрешениями и
+// ограничения по Лицензии.
 
 using System;
 using System.Windows;
@@ -20,17 +20,18 @@ using System.ComponentModel;
 namespace Ookii.Dialogs.Wpf.Sample
 {
     /// <summary>
-    /// Interaction logic for Window1.xaml
+    /// Логика взаимодействия для Window1.xaml
+    /// Реализует вывод различных системных окон.
     /// </summary>
     public partial class MainWindow : Window
     {
         private ProgressDialog _sampleProgressDialog = new ProgressDialog()
-            {
-                WindowTitle = "Progress dialog sample",
-                Text = "This is a sample progress dialog...",
-                Description = "Processing...",
-                ShowTimeRemaining = true,
-            };
+        {
+            WindowTitle = "Progress dialog sample",
+            Text = "This is a sample progress dialog...",
+            Description = "Processing...",
+            ShowTimeRemaining = true,
+        };
 
         public MainWindow()
         {
@@ -39,43 +40,48 @@ namespace Ookii.Dialogs.Wpf.Sample
             _sampleProgressDialog.DoWork += new DoWorkEventHandler(_sampleProgressDialog_DoWork);
         }
 
-
+        /// <summary>
+        /// Обработка события нажатия кнопки выбора диалогового окна.
+        /// </summary>
         private void _showDialogButton_Click(object sender, RoutedEventArgs e)
         {
-            switch( _dialogComboBox.SelectedIndex )
+            switch (_dialogComboBox.SelectedIndex)
             {
-            case 0:
-                ShowTaskDialog();
-                break;
-            case 1:
-                ShowTaskDialogWithCommandLinks();
-                break;
-            case 2:
-                ShowProgressDialog();
-                break;
-            case 3:
-                ShowCredentialDialog();
-                break;
-            case 4:
-                ShowFolderBrowserDialog();
-                break;
-            case 5:
-                ShowFolderBrowserDialogSelectMultiple();
-                break;
-            case 6:
-                ShowOpenFileDialog();
-                break;
-            case 7:
-                ShowSaveFileDialog();
-                break;
+                case 0:
+                    ShowTaskDialog();
+                    break;
+                case 1:
+                    ShowTaskDialogWithCommandLinks();
+                    break;
+                case 2:
+                    ShowProgressDialog();
+                    break;
+                case 3:
+                    ShowCredentialDialog();
+                    break;
+                case 4:
+                    ShowFolderBrowserDialog();
+                    break;
+                case 5:
+                    ShowFolderBrowserDialogSelectMultiple();
+                    break;
+                case 6:
+                    ShowOpenFileDialog();
+                    break;
+                case 7:
+                    ShowSaveFileDialog();
+                    break;
             }
         }
 
+        /// <summary>
+        /// Показывает окно "Диалог задач".
+        /// </summary>
         private void ShowTaskDialog()
         {
-            if( TaskDialog.OSSupportsTaskDialogs )
+            if (TaskDialog.OSSupportsTaskDialogs)
             {
-                using( TaskDialog dialog = new TaskDialog() )
+                using (TaskDialog dialog = new TaskDialog())
                 {
                     dialog.WindowTitle = "Task dialog sample";
                     dialog.MainInstruction = "This is an example task dialog.";
@@ -92,9 +98,9 @@ namespace Ookii.Dialogs.Wpf.Sample
                     dialog.Buttons.Add(cancelButton);
                     dialog.HyperlinkClicked += new EventHandler<HyperlinkClickedEventArgs>(TaskDialog_HyperLinkClicked);
                     TaskDialogButton button = dialog.ShowDialog(this);
-                    if( button == customButton )
+                    if (button == customButton)
                         MessageBox.Show(this, "You clicked the custom button", "Task Dialog Sample");
-                    else if( button == okButton )
+                    else if (button == okButton)
                         MessageBox.Show(this, "You clicked the OK button.", "Task Dialog Sample");
                 }
             }
@@ -104,11 +110,14 @@ namespace Ookii.Dialogs.Wpf.Sample
             }
         }
 
+        /// <summary>
+        /// Показывает диалоговое окно задачи со ссылками на команды.
+        /// </summary>
         private void ShowTaskDialogWithCommandLinks()
         {
-            if( TaskDialog.OSSupportsTaskDialogs )
+            if (TaskDialog.OSSupportsTaskDialogs)
             {
-                using( TaskDialog dialog = new TaskDialog() )
+                using (TaskDialog dialog = new TaskDialog())
                 {
                     dialog.WindowTitle = "Task dialog sample";
                     dialog.MainInstruction = "This is a sample task dialog with command links.";
@@ -131,43 +140,52 @@ namespace Ookii.Dialogs.Wpf.Sample
             }
         }
 
+        /// <summary>
+        /// Показывает окно с процесс баром.
+        /// </summary>
         private void ShowProgressDialog()
         {
-            if( _sampleProgressDialog.IsBusy )
+            if (_sampleProgressDialog.IsBusy)
                 MessageBox.Show(this, "The progress dialog is already displayed.", "Progress dialog sample");
             else
-                _sampleProgressDialog.Show(); // Show a modeless dialog; this is the recommended mode of operation for a progress dialog.
+                _sampleProgressDialog.Show(); // Показать немодальный диалог; это рекомендуемый режим работы для диалогового окна прогресса.
         }
 
+        /// <summary>
+        /// Показывает диалоговое окно учетных данных.
+        /// </summary>
         private void ShowCredentialDialog()
         {
-            using( CredentialDialog dialog = new CredentialDialog() )
+            using (CredentialDialog dialog = new CredentialDialog())
             {
-                // The window title will not be used on Vista and later; there the title will always be "Windows Security".
+                // Заголовок окна не будет использоваться в Vista и более поздних версиях; там заголовок всегда будет «Безопасность Windows».
                 dialog.WindowTitle = "Credential dialog sample";
                 dialog.MainInstruction = "Please enter your username and password.";
                 dialog.Content = "Since this is a sample the credentials won't be used for anything, so you can enter anything you like.";
                 dialog.ShowSaveCheckBox = true;
                 dialog.ShowUIForSavedCredentials = true;
-                // The target is the key under which the credentials will be stored.
-                // It is recommended to set the target to something following the "Company_Application_Server" pattern.
-                // Targets are per user, not per application, so using such a pattern will ensure uniqueness.
+                // Цель — это ключ, под которым будут храниться учетные данные.
+                // Рекомендуется установить цель в соответствии с шаблоном "Company_Application_Server".
+                // Цели указаны для пользователя, а не для приложения, поэтому использование такого шаблона обеспечит уникальность.
                 dialog.Target = "Ookii_DialogsWpfSample_www.example.com";
-                if( dialog.ShowDialog(this) )
+                if (dialog.ShowDialog(this))
                 {
                     MessageBox.Show(this, string.Format("You entered the following information:\nUser name: {0}\nPassword: {1}", dialog.Credentials.UserName, dialog.Credentials.Password), "Credential dialog sample");
-                    // Normally, you should verify if the credentials are correct before calling ConfirmCredentials.
-                    // ConfirmCredentials will save the credentials if and only if the user checked the save checkbox.
+                    // Обычно перед вызовом ConfirmCredentials следует проверить правильность учетных данных.
+                    // ConfirmCredentials сохранит учетные данные тогда и только тогда, когда пользователь установил флажок сохранения.
                     dialog.ConfirmCredentials(true);
                 }
             }
         }
 
+        /// <summary>
+        /// Показывает окно выбора папки.
+        /// </summary>
         private void ShowFolderBrowserDialog()
         {
             var dialog = new VistaFolderBrowserDialog();
             dialog.Description = "Please select a folder.";
-            dialog.UseDescriptionForTitle = true; // This applies to the Vista style dialog only, not the old dialog.
+            dialog.UseDescriptionForTitle = true; // Это относится только к диалоговому окну в стиле Vista, а не к старому диалоговому окну.
 
             if (!VistaFolderBrowserDialog.IsVistaFolderDialogSupported)
             {
@@ -180,12 +198,15 @@ namespace Ookii.Dialogs.Wpf.Sample
             }
         }
 
+        /// <summary>
+        /// Показывает окно выбора нескольких папок.
+        /// </summary>
         private void ShowFolderBrowserDialogSelectMultiple()
         {
             var dialog = new VistaFolderBrowserDialog();
             dialog.Multiselect = true;
             dialog.Description = "Please select a folder.";
-            dialog.UseDescriptionForTitle = true; // This applies to the Vista style dialog only, not the old dialog.
+            dialog.UseDescriptionForTitle = true; // Это относится только к диалоговому окну в стиле Vista, а не к старому диалоговому окну.
 
             if (!VistaFolderBrowserDialog.IsVistaFolderDialogSupported)
             {
@@ -207,26 +228,32 @@ namespace Ookii.Dialogs.Wpf.Sample
             }
         }
 
+        /// <summary>
+        /// Показывает окно выбора файла.
+        /// </summary>
         private void ShowOpenFileDialog()
         {
-            // As of .Net 3.5 SP1, WPF's Microsoft.Win32.OpenFileDialog class still uses the old style
+            // Начиная с .Net 3.5 SP1 класс WPF Microsoft.Win32.OpenFileDialog по-прежнему использует старый стиль
             VistaOpenFileDialog dialog = new VistaOpenFileDialog();
             dialog.Filter = "All files (*.*)|*.*";
-            if( !VistaFileDialog.IsVistaFileDialogSupported )
+            if (!VistaFileDialog.IsVistaFileDialogSupported)
                 MessageBox.Show(this, "Because you are not using Windows Vista or later, the regular open file dialog will be used. Please use Windows Vista to see the new dialog.", "Sample open file dialog");
-            if( (bool)dialog.ShowDialog(this) )
+            if ((bool)dialog.ShowDialog(this))
                 MessageBox.Show(this, "The selected file was: " + dialog.FileName, "Sample open file dialog");
         }
 
+        /// <summary>
+        /// Показывает окно сохранения файла.
+        /// </summary>
         private void ShowSaveFileDialog()
         {
             VistaSaveFileDialog dialog = new VistaSaveFileDialog();
             dialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
             dialog.DefaultExt = "txt";
-            // As of .Net 3.5 SP1, WPF's Microsoft.Win32.SaveFileDialog class still uses the old style
-            if( !VistaFileDialog.IsVistaFileDialogSupported )
+            // Начиная с .Net 3.5 SP1 класс WPF Microsoft.Win32.SaveFileDialog по-прежнему использует старый стиль
+            if (!VistaFileDialog.IsVistaFileDialogSupported)
                 MessageBox.Show(this, "Because you are not using Windows Vista or later, the regular save file dialog will be used. Please use Windows Vista to see the new dialog.", "Sample save file dialog");
-            if( (bool)dialog.ShowDialog(this) )
+            if ((bool)dialog.ShowDialog(this))
                 MessageBox.Show(this, "The selected file was: " + dialog.FileName, "Sample save file dialog");
         }
 
@@ -235,18 +262,23 @@ namespace Ookii.Dialogs.Wpf.Sample
             System.Diagnostics.Process.Start(e.Href);
         }
 
+        /// <summary>
+        /// Реализация рассчета и вывода информации о показателе выполнения процесс бара.
+        /// </summary>
         private void _sampleProgressDialog_DoWork(object sender, DoWorkEventArgs e)
         {
-            // Implement the operation that the progress bar is showing progress of here, same as you would do with a background worker.
-            for( int x = 0; x <= 100; ++x )
+            // Реализуйте операцию, прогресс которой показывает индикатор выполнения, так же, как вы бы сделали это с фоновым исполнителем.
+            for (int x = 0; x <= 100; ++x)
             {
                 Thread.Sleep(500);
-                // Periodically check CancellationPending and abort the operation if required.
-                if( _sampleProgressDialog.CancellationPending )
+
+                // Периодически проверяем CancellationPending и при необходимости прерываем операцию.
+                if (_sampleProgressDialog.CancellationPending)
                     return;
-                // ReportProgress can also modify the main text and description; pass null to leave them unchanged.
-                // If _sampleProgressDialog.ShowTimeRemaining is set to true, the time will automatically be calculated based on
-                // the frequency of the calls to ReportProgress.
+
+                // ReportProgress также может изменять основной текст и описание; передать null, чтобы оставить их без изменений.
+                // Если для _sampleProgressDialog.ShowTimeRemaining установлено значение true, время будет автоматически рассчитываться на основе
+                // частота вызовов ReportProgress.
                 _sampleProgressDialog.ReportProgress(x, null, string.Format(System.Globalization.CultureInfo.CurrentCulture, "Processing: {0}%", x));
             }
         }
