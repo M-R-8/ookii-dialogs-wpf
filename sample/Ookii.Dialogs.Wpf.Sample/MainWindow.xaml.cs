@@ -20,7 +20,7 @@ using System.ComponentModel;
 namespace Ookii.Dialogs.Wpf.Sample
 {
     /// <summary>
-    /// Interaction logic for Window1.xaml/
+    /// Interaction logic for Window1.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
